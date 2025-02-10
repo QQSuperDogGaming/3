@@ -37,8 +37,8 @@
             cursor: pointer;
             border: none;
             border-radius: 10px;
-            transition: transform 0.1s ease;
             position: absolute;
+            transition: left 0.1s ease, top 0.1s ease;
         }
         #yes {
             background-color: red;
@@ -64,26 +64,31 @@
             const buttonWidth = noButton.offsetWidth;
             const buttonHeight = noButton.offsetHeight;
 
-            const maxWidth = window.innerWidth - buttonWidth - 50; // Ensures it stays within screen width
-            const maxHeight = window.innerHeight - buttonHeight - 50; // Ensures it stays within screen height
+            const maxWidth = window.innerWidth - buttonWidth - 20; // Prevents going out of bounds
+            const maxHeight = window.innerHeight - buttonHeight - 20; // Prevents going out of bounds
 
             let newX = Math.random() * maxWidth;
             let newY = Math.random() * maxHeight;
 
-            // Ensure button does not go off-screen
-            newX = Math.max(10, newX);
-            newY = Math.max(10, newY);
+            // Ensure button stays within screen bounds
+            newX = Math.max(10, Math.min(newX, maxWidth));
+            newY = Math.max(10, Math.min(newY, maxHeight));
 
             noButton.style.left = `${newX}px`;
             noButton.style.top = `${newY}px`;
         }
 
+        noButton.style.position = "absolute"; // Ensures movement works properly
+        noButton.style.left = "50%";
+        noButton.style.top = "50%";
+        noButton.style.transform = "translate(-50%, -50%)"; // Centers button initially
+
         noButton.addEventListener('mouseover', moveNoButton);
         noButton.addEventListener('click', moveNoButton);
-        noButton.addEventListener('touchstart', moveNoButton); // Works for mobile
+        noButton.addEventListener('touchstart', moveNoButton); // Mobile friendly
 
         document.getElementById('yes').addEventListener('click', () => {
-            document.body.innerHTML = "<h1>yippe! see you soon mommy :3</h1>";
+            document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
         });
     </script>
 </body>
