@@ -24,7 +24,11 @@
         }
         .buttons {
             position: relative;
-            margin-top: 20px;
+            width: 300px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         button {
             font-size: 1.5em;
@@ -39,7 +43,6 @@
         #yes {
             background-color: red;
             color: white;
-            position: relative;
         }
         #no {
             background-color: white;
@@ -61,19 +64,23 @@
             const buttonWidth = noButton.offsetWidth;
             const buttonHeight = noButton.offsetHeight;
 
-            const maxWidth = window.innerWidth - buttonWidth - 20;
-            const maxHeight = window.innerHeight - buttonHeight - 20;
+            const maxWidth = window.innerWidth - buttonWidth - 50; // Ensures it stays within screen width
+            const maxHeight = window.innerHeight - buttonHeight - 50; // Ensures it stays within screen height
 
-            const randomX = Math.random() * maxWidth;
-            const randomY = Math.random() * maxHeight;
+            let newX = Math.random() * maxWidth;
+            let newY = Math.random() * maxHeight;
 
-            noButton.style.left = `${randomX}px`;
-            noButton.style.top = `${randomY}px`;
+            // Ensure button does not go off-screen
+            newX = Math.max(10, newX);
+            newY = Math.max(10, newY);
+
+            noButton.style.left = `${newX}px`;
+            noButton.style.top = `${newY}px`;
         }
 
         noButton.addEventListener('mouseover', moveNoButton);
         noButton.addEventListener('click', moveNoButton);
-        noButton.addEventListener('touchstart', moveNoButton); // For mobile
+        noButton.addEventListener('touchstart', moveNoButton); // Works for mobile
 
         document.getElementById('yes').addEventListener('click', () => {
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
