@@ -16,6 +16,7 @@
             height: 100vh;
             overflow: hidden;
             margin: 0;
+            position: relative;
         }
         h1 {
             font-size: 2em;
@@ -32,16 +33,17 @@
             cursor: pointer;
             border: none;
             border-radius: 10px;
-            transition: transform 0.3s ease;
+            transition: transform 0.1s ease;
+            position: absolute;
         }
         #yes {
             background-color: red;
             color: white;
+            position: relative;
         }
         #no {
             background-color: white;
             color: black;
-            position: absolute;
         }
     </style>
 </head>
@@ -56,8 +58,11 @@
         const noButton = document.getElementById('no');
 
         function moveNoButton() {
-            const maxWidth = window.innerWidth - 100;
-            const maxHeight = window.innerHeight - 100;
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+
+            const maxWidth = window.innerWidth - buttonWidth - 20;
+            const maxHeight = window.innerHeight - buttonHeight - 20;
 
             const randomX = Math.random() * maxWidth;
             const randomY = Math.random() * maxHeight;
@@ -68,7 +73,7 @@
 
         noButton.addEventListener('mouseover', moveNoButton);
         noButton.addEventListener('click', moveNoButton);
-        noButton.addEventListener('touchstart', moveNoButton); // Works for mobile
+        noButton.addEventListener('touchstart', moveNoButton); // For mobile
 
         document.getElementById('yes').addEventListener('click', () => {
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
