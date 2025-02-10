@@ -22,18 +22,21 @@
             font-size: 2em;
             padding: 0 20px;
         }
-        .buttons {
+        .canvas {
             position: relative;
-            width: 300px;
-            height: 100px;
+            width: 400px; /* Fixed canvas size */
+            height: 300px;
+            border: 2px solid red;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 20px;
+            background: white;
+            border-radius: 20px;
         }
         button {
             font-size: 1.5em;
             padding: 10px 20px;
-            margin: 10px;
             cursor: pointer;
             border: none;
             border-radius: 10px;
@@ -52,43 +55,44 @@
 </head>
 <body>
     <h1>Will you be my Valentine? ❤️</h1>
-    <div class="buttons">
+    <div class="canvas">
         <button id="yes">Yes</button>
         <button id="no">No</button>
     </div>
 
     <script>
         const noButton = document.getElementById('no');
+        const canvas = document.querySelector('.canvas');
 
         function moveNoButton() {
             const buttonWidth = noButton.offsetWidth;
             const buttonHeight = noButton.offsetHeight;
 
-            const maxWidth = window.innerWidth - buttonWidth - 20; // Prevents going out of bounds
-            const maxHeight = window.innerHeight - buttonHeight - 20; // Prevents going out of bounds
+            const maxWidth = canvas.clientWidth - buttonWidth - 10; // Keeps it inside canvas
+            const maxHeight = canvas.clientHeight - buttonHeight - 10;
 
             let newX = Math.random() * maxWidth;
             let newY = Math.random() * maxHeight;
 
-            // Ensure button stays within screen bounds
-            newX = Math.max(10, Math.min(newX, maxWidth));
-            newY = Math.max(10, Math.min(newY, maxHeight));
+            // Ensure button stays inside canvas
+            newX = Math.max(5, Math.min(newX, maxWidth));
+            newY = Math.max(5, Math.min(newY, maxHeight));
 
             noButton.style.left = `${newX}px`;
             noButton.style.top = `${newY}px`;
         }
 
-        noButton.style.position = "absolute"; // Ensures movement works properly
+        noButton.style.position = "absolute"; // Makes movement work properly
         noButton.style.left = "50%";
         noButton.style.top = "50%";
         noButton.style.transform = "translate(-50%, -50%)"; // Centers button initially
 
         noButton.addEventListener('mouseover', moveNoButton);
         noButton.addEventListener('click', moveNoButton);
-        noButton.addEventListener('touchstart', moveNoButton); // Mobile friendly
+        noButton.addEventListener('touchstart', moveNoButton); // Mobile-friendly
 
         document.getElementById('yes').addEventListener('click', () => {
-            document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
+            document.body.innerHTML = "<h1>Yippee! See you soon Mommy <3 </h1>";
         });
     </script>
 </body>
