@@ -14,12 +14,13 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         h1 {
             font-size: 2em;
+            padding: 0 20px;
         }
         .buttons {
-            position: relative;
             margin-top: 20px;
         }
         button {
@@ -29,7 +30,7 @@
             cursor: pointer;
             border: none;
             border-radius: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
         #yes {
             background-color: red;
@@ -38,7 +39,6 @@
         #no {
             background-color: white;
             color: black;
-            position: absolute;
         }
     </style>
 </head>
@@ -52,15 +52,15 @@
     <script>
         const noButton = document.getElementById('no');
 
-        noButton.addEventListener('mouseover', moveNoButton);
-        noButton.addEventListener('click', moveNoButton);
-
-        function moveNoButton() {
-            const x = Math.random() * (window.innerWidth - 150);
-            const y = Math.random() * (window.innerHeight - 150);
-            noButton.style.left = `${x}px`;
-            noButton.style.top = `${y}px`;
+        function makeNoDisappear() {
+            noButton.style.transform = "scale(0.1)";
+            noButton.style.opacity = "0";
+            setTimeout(() => noButton.style.display = "none", 500);
         }
+
+        noButton.addEventListener('mouseover', makeNoDisappear);
+        noButton.addEventListener('click', makeNoDisappear);
+        noButton.addEventListener('touchstart', makeNoDisappear); // Works for mobile
 
         document.getElementById('yes').addEventListener('click', () => {
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
