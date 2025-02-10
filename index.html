@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
             margin: 0;
         }
         h1 {
@@ -21,6 +22,7 @@
             padding: 0 20px;
         }
         .buttons {
+            position: relative;
             margin-top: 20px;
         }
         button {
@@ -30,7 +32,7 @@
             cursor: pointer;
             border: none;
             border-radius: 10px;
-            transition: all 0.5s ease;
+            transition: transform 0.3s ease;
         }
         #yes {
             background-color: red;
@@ -39,6 +41,7 @@
         #no {
             background-color: white;
             color: black;
+            position: absolute;
         }
     </style>
 </head>
@@ -52,15 +55,20 @@
     <script>
         const noButton = document.getElementById('no');
 
-        function makeNoDisappear() {
-            noButton.style.transform = "scale(0.1)";
-            noButton.style.opacity = "0";
-            setTimeout(() => noButton.style.display = "none", 500);
+        function moveNoButton() {
+            const maxWidth = window.innerWidth - 100;
+            const maxHeight = window.innerHeight - 100;
+
+            const randomX = Math.random() * maxWidth;
+            const randomY = Math.random() * maxHeight;
+
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
         }
 
-        noButton.addEventListener('mouseover', makeNoDisappear);
-        noButton.addEventListener('click', makeNoDisappear);
-        noButton.addEventListener('touchstart', makeNoDisappear); // Works for mobile
+        noButton.addEventListener('mouseover', moveNoButton);
+        noButton.addEventListener('click', moveNoButton);
+        noButton.addEventListener('touchstart', moveNoButton); // Works for mobile
 
         document.getElementById('yes').addEventListener('click', () => {
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
