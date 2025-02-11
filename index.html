@@ -52,16 +52,15 @@
             background-color: white;
             color: black;
         }
-        /* Fake Cursor */
+        /* Draggable Cursor */
         .cursor {
-            width: 15px;
-            height: 15px;
+            width: 20px;
+            height: 20px;
             background-color: black;
             border-radius: 50%;
             position: absolute;
             pointer-events: none;
-            display: none;
-            transition: transform 0.05s ease;
+            cursor: grab;
         }
     </style>
 </head>
@@ -70,19 +69,19 @@
     <div class="canvas">
         <button id="yes">Yes</button>
         <button id="no">No</button>
-        <div class="cursor"></div> <!-- Fake Cursor -->
+        <div class="cursor" id="cursor"></div> <!-- Draggable Cursor -->
     </div>
 
     <script>
         const noButton = document.getElementById('no');
         const canvas = document.querySelector('.canvas');
-        const cursor = document.querySelector('.cursor');
+        const cursor = document.getElementById('cursor');
+        let isDragging = false;
 
         function moveNoButton() {
             const buttonWidth = noButton.offsetWidth;
             const buttonHeight = noButton.offsetHeight;
-
-            const maxWidth = canvas.clientWidth - buttonWidth - 10; 
+            const maxWidth = canvas.clientWidth - buttonWidth - 10;
             const maxHeight = canvas.clientHeight - buttonHeight - 10;
 
             let newX = Math.random() * maxWidth;
@@ -108,14 +107,35 @@
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
         });
 
-        // Mobile Fake Cursor
-        document.addEventListener('touchstart', (e) => {
-            cursor.style.display = "block";
+        // Draggable Cursor (Mouse)
+        cursor.addEventListener('mousedown', (e) => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                moveCursor(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Draggable Cursor (Touch)
+        cursor.addEventListener('touchstart', (e) => {
+            isDragging = true;
             moveCursor(e.touches[0].clientX, e.touches[0].clientY);
         });
 
         document.addEventListener('touchmove', (e) => {
-            moveCursor(e.touches[0].clientX, e.touches[0].clientY);
+            if (isDragging) {
+                moveCursor(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
         });
 
         function moveCursor(x, y) {
@@ -123,6 +143,10 @@
             cursor.style.top = `${y}px`;
             cursor.style.transform = "translate(-50%, -50%)";
         }
+
+        // Start the cursor in the center
+        moveCursor(window.innerWidth / 2, window.innerHeight / 2);
     </script>
 </body>
 </html>
+
