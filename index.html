@@ -47,6 +47,8 @@
         #yes {
             background-color: red;
             color: white;
+            opacity: 0.5;
+            pointer-events: none;
         }
         #no {
             background-color: white;
@@ -61,7 +63,7 @@
             position: absolute;
             cursor: grab;
             z-index: 1000;
-            display: block; /* Make sure it's visible */
+            display: block;
         }
     </style>
 </head>
@@ -75,9 +77,12 @@
 
     <script>
         const noButton = document.getElementById('no');
+        const yesButton = document.getElementById('yes');
         const canvas = document.querySelector('.canvas');
         const cursor = document.getElementById('cursor');
         let isDragging = false;
+        let noClickCount = 0;
+        const requiredNoClicks = Math.floor(Math.random() * 5) + 3; // Between 3 and 7 times
 
         function moveNoButton() {
             const buttonWidth = noButton.offsetWidth;
@@ -93,6 +98,12 @@
 
             noButton.style.left = `${newX}px`;
             noButton.style.top = `${newY}px`;
+
+            noClickCount++;
+            if (noClickCount >= requiredNoClicks) {
+                yesButton.style.opacity = "1";
+                yesButton.style.pointerEvents = "auto";
+            }
         }
 
         noButton.style.position = "absolute";
@@ -104,7 +115,7 @@
         noButton.addEventListener('click', moveNoButton);
         noButton.addEventListener('touchstart', moveNoButton);
 
-        document.getElementById('yes').addEventListener('click', () => {
+        yesButton.addEventListener('click', () => {
             document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
         });
 
@@ -150,4 +161,3 @@
     </script>
 </body>
 </html>
-
