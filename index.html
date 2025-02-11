@@ -24,7 +24,7 @@
         }
         .canvas {
             position: relative;
-            width: 400px; /* Fixed canvas size */
+            width: 400px;
             height: 300px;
             border: 2px solid red;
             display: flex;
@@ -33,6 +33,7 @@
             margin-top: 20px;
             background: white;
             border-radius: 20px;
+            overflow: hidden;
         }
         button {
             font-size: 1.5em;
@@ -51,6 +52,17 @@
             background-color: white;
             color: black;
         }
+        /* Fake Cursor */
+        .cursor {
+            width: 15px;
+            height: 15px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            pointer-events: none;
+            display: none;
+            transition: transform 0.05s ease;
+        }
     </style>
 </head>
 <body>
@@ -58,23 +70,24 @@
     <div class="canvas">
         <button id="yes">Yes</button>
         <button id="no">No</button>
+        <div class="cursor"></div> <!-- Fake Cursor -->
     </div>
 
     <script>
         const noButton = document.getElementById('no');
         const canvas = document.querySelector('.canvas');
+        const cursor = document.querySelector('.cursor');
 
         function moveNoButton() {
             const buttonWidth = noButton.offsetWidth;
             const buttonHeight = noButton.offsetHeight;
 
-            const maxWidth = canvas.clientWidth - buttonWidth - 10; // Keeps it inside canvas
+            const maxWidth = canvas.clientWidth - buttonWidth - 10; 
             const maxHeight = canvas.clientHeight - buttonHeight - 10;
 
             let newX = Math.random() * maxWidth;
             let newY = Math.random() * maxHeight;
 
-            // Ensure button stays inside canvas
             newX = Math.max(5, Math.min(newX, maxWidth));
             newY = Math.max(5, Math.min(newY, maxHeight));
 
@@ -82,18 +95,34 @@
             noButton.style.top = `${newY}px`;
         }
 
-        noButton.style.position = "absolute"; // Makes movement work properly
+        noButton.style.position = "absolute";
         noButton.style.left = "50%";
         noButton.style.top = "50%";
-        noButton.style.transform = "translate(-50%, -50%)"; // Centers button initially
+        noButton.style.transform = "translate(-50%, -50%)";
 
         noButton.addEventListener('mouseover', moveNoButton);
         noButton.addEventListener('click', moveNoButton);
-        noButton.addEventListener('touchstart', moveNoButton); // Mobile-friendly
+        noButton.addEventListener('touchstart', moveNoButton);
 
         document.getElementById('yes').addEventListener('click', () => {
-            document.body.innerHTML = "<h1>Yippee! See you soon <3 </h1>";
+            document.body.innerHTML = "<h1>Yay! ❤️ Happy Valentine's Day!</h1>";
         });
+
+        // Mobile Fake Cursor
+        document.addEventListener('touchstart', (e) => {
+            cursor.style.display = "block";
+            moveCursor(e.touches[0].clientX, e.touches[0].clientY);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            moveCursor(e.touches[0].clientX, e.touches[0].clientY);
+        });
+
+        function moveCursor(x, y) {
+            cursor.style.left = `${x}px`;
+            cursor.style.top = `${y}px`;
+            cursor.style.transform = "translate(-50%, -50%)";
+        }
     </script>
 </body>
 </html>
